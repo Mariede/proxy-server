@@ -1,0 +1,41 @@
+{
+  "name": "proxy-server",
+  "version": "1.0.0",
+  "description": "Servidor genérico de proxy em express NODE.js para uma ou mais aplicações",
+  "main": "./src/_proxy-start.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-proxy": "^1.18.1",
+    "log4js": "^6.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.3.1",
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "start": "cls && nodemon ./src/_proxy-start.js",
+    "inspect": "cls && nodemon --inspect ./src/_proxy-start.js",
+    "forever-win": "set NODE_ENV=development&& forever start -s -c node ./src/_proxy-start.js"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "src/cert/*"
+    ],
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "ext": "js, json"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "application",
+    "javascript",
+    "js",
+    "server",
+    "proxy"
+  ],
+  "author": "Michel Guimarães Ariede"
+}
