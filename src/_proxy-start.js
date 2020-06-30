@@ -8,9 +8,14 @@ const fs = require('fs');
 const http = require('http');
 const https = require('https');
 const log4js = require('log4js');
-const path = require('path');
 const proxy = require('http-proxy');
 // -------------------------------------------------------------------------
+
+// Arquivo config
+const serverConfig = require('./server-config');
+
+// Root do servidor
+const serverRoot = __dirname;
 
 const startProxy = () => {
 	return new Promise((resolve, reject) => {
@@ -31,46 +36,31 @@ const startProxy = () => {
 		);
 
 		// Servidor de proxy - configuracoes ---------------------
-		const getAppCert = () => { // Certificado digital (apenas se ativo)
+		const getAppCert = () => {
 			const result = {};
 
-			if (serverConfig.isHttps) {
-				const certPath = path.resolve(__dirname, '/cert');
-				const certKey = `${certPath}/cert.key`;
-				const certPublic = `${certPath}/cert.pem`;
-				const certPfx = `${certPath}/cert.pfx`;
+			// Certificado digital para o servidor de proxy
+			if (serverConfig.secure.isHttps) {
+				const certPath = `${serverRoot + serverConfig.secure.certFolder}/`;
+				const certKey = certPath + serverConfig.secure.certKey;
+				const certPublic = certPath + serverConfig.secure.certPublic;
 
 				result.key = fs.readFileSync(certKey, 'utf8');
 				result.public = fs.readFileSync(certPublic, 'utf8');
-				result.pfx = fs.readFileSync(certPfx, 'utf8');
 			}
 
 			return result;
 		};
 
-		const serverConfig = {
-			isHttps: false,
-			port: 80,
-			host: 'localhost',
-			backlog: 511,
-			params: {
-				maxConnections: 100,
-				timeout: 0,
-				keepAliveTimeout: 15000,
-				maxHeadersCount: 2000,
-				headersTimeout: 60000
-			}
-		};
-
 		const cert = getAppCert();
 
 		const pServerCheck = {
-			protocol: (serverConfig.isHttps ? https : http),
-			serverOptions: (serverConfig.isHttps ? {
+			protocol: (serverConfig.secure.isHttps ? https : http),
+			serverOptions: (serverConfig.secure.isHttps ? {
 				key: cert.key,
 				cert: cert.public
 			} : {}),
-			protocolInfo: (serverConfig.isHttps ? 'https://' : 'http://')
+			protocolInfo: (serverConfig.secure.isHttps ? 'https://' : 'http://')
 		};
 
 		const listenOptions = {
@@ -106,10 +96,7 @@ const startProxy = () => {
 		);
 
 		// Array de objetos com rotas base a serem redirecionadas (proxy)
-		const serversToProxy = [
-			{ path: '/APP1', toProtocol: 'http://', toHost: 'localhost', toPort: 5000 },
-			{ path: '/APP2', toProtocol: 'http://', toHost: 'localhost', toPort: 5010 }
-		];
+		const serversToProxy = serverConfig.proxyRoutes;
 
 		serversToProxy.forEach(
 			serverData => {
@@ -123,6 +110,16 @@ const startProxy = () => {
 					host: toHost,
 					port: toPort
 				};
+
+				// Certificado digital para os redirecionamentos
+				if (toProtocol.includes('https')) {
+					const certPfx = (serverData.certPfx ? serverData.certPfx : undefined);
+
+					if (certPfx) {
+						target.pfx = fs.readFileSync(`${serverRoot}/${certPfx}`, 'utf8');
+						target.passphrase = String(serverData.passphrase || '');
+					}
+				}
 
 				app.all(
 					`${path}/*`,
