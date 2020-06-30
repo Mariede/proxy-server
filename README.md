@@ -12,10 +12,10 @@ npm start
 
 Arquivo de configurações do servidor de proxy
 
-* **secure**: Certificado digital para o servidor de proxy
+* **secure**: certificado digital para o servidor de proxy
     + apenas se **isHttps** for true, usa as chaves **certKey** e **certPublic**
 
-* **port**, **host**, **backlog**, **params**:Configurações de uso de servidor
+* **port**, **host**, **backlog**, **params**: configurações de uso de servidor
 
 * **proxyRoutes**: é uma array de objetos, onde cada objeto especifica uma rota para redirecionamento (proxy)
     + **path**: URL base que define a origem de-para do redirecionamento
