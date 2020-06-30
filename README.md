@@ -12,7 +12,7 @@ npm start
 
 Arquivo de configurações do servidor de proxy
 
-* **secure**: certificado digital para o servidor de proxy
+* **secure**: certificado digital para o servidor
     + apenas se **isHttps** for true, usa as chaves **certKey** e **certPublic**
 
 * **port**, **host**, **backlog**, **params**: configurações de uso de servidor
@@ -22,5 +22,5 @@ Arquivo de configurações do servidor de proxy
     + **toProtocol**: protocolo de destino (http:// ou https://)
     + **toHost**: host de destino
     + **toPort**: porta de destino
-    + **certPfx**: apenas se **toProtocol** for https:// informa o caminho para o certificado digital
+    + **certPfx**: apenas se **toProtocol** for https:// informa o caminho para o certificado digital do cliente (destino)
    	+ **passphrase**: apenas se **toProtocol** for https:// (é associada na criação do arquivo .pfx)
