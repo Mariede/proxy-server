@@ -9,13 +9,13 @@ const http = require('http');
 const https = require('https');
 const log4js = require('log4js');
 const proxy = require('http-proxy');
-// -------------------------------------------------------------------------
 
 // Arquivo config
 const serverConfig = require('./server-config');
 
 // Root do servidor
 const serverRoot = __dirname;
+// -------------------------------------------------------------------------
 
 const startProxy = () => {
 	return new Promise((resolve, reject) => {
