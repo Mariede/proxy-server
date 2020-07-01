@@ -104,7 +104,7 @@ const startProxy = () => {
 				const toProtocol = serverData.toProtocol;
 				const toHost = serverData.toHost;
 				const toPort = serverData.toPort;
-				const toOrigin = `${toProtocol}${toHost}:${toPort}`;
+				const toOrigin = `${toProtocol}//${toHost}:${toPort}`;
 				const target = {
 					protocol: toProtocol,
 					host: toHost,
@@ -112,11 +112,11 @@ const startProxy = () => {
 				};
 
 				// Certificado digital para os redirecionamentos
-				if (toProtocol.includes('https')) {
+				if (toProtocol.includes('https:')) {
 					const certPfx = (serverData.certPfx ? serverData.certPfx : undefined);
 
 					if (certPfx) {
-						target.pfx = fs.readFileSync(`${serverRoot}/${certPfx}`, 'utf8');
+						target.pfx = fs.readFileSync(`${serverRoot}/${certPfx}`); // Arquivo PKCS12 binario
 						target.passphrase = String(serverData.passphrase || '');
 					}
 				}
@@ -130,15 +130,6 @@ const startProxy = () => {
 							req,
 							res,
 							{
-								/* Para https ------- */
-								// target: {
-								// 	protocol: 'https:',
-								// 	host: 'my-domain-name',
-								// 	port: 443,
-								// 	pfx: fs.readFileSync('path/to/certificate.p12'),
-								// 	passphrase: 'password',
-								// },
-								/* ------------------ */
 								target: target,
 								cookiePathRewrite: false,
 								changeOrigin: true
