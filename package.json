@@ -5,13 +5,17 @@
   "main": "./src/_proxy-start.js",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": ">=10.5.0"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "http-proxy": "^1.18.1",
     "log4js": "^6.3.0"
   },
   "devDependencies": {
-    "eslint": "^7.4.0",
+    "eslint": "^7.5.0",
+    "eslint-plugin-node": "^11.1.0",
     "nodemon": "^2.0.4"
   },
   "scripts": {
