@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Servidor genérico de proxy em express NODE.js para uma ou mais aplicações",
   "main": "./src/_proxy-start.js",
+  "type": "commonjs",
   "license": "MIT",
   "private": true,
   "engines": {
@@ -14,14 +15,13 @@
     "log4js": "^6.3.0"
   },
   "devDependencies": {
-    "eslint": "^7.5.0",
+    "eslint": "^7.14.0",
     "eslint-plugin-node": "^11.1.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.6"
   },
   "scripts": {
     "start": "cls && nodemon ./src/_proxy-start.js",
-    "inspect": "cls && nodemon --inspect ./src/_proxy-start.js",
-    "forever-win": "set NODE_ENV=development&& forever start -s -c node ./src/_proxy-start.js"
+    "inspect": "cls && nodemon --inspect ./src/_proxy-start.js"
   },
   "nodemonConfig": {
     "ignore": [

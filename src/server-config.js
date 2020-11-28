@@ -7,8 +7,8 @@ const serverConfig = {
 		certKey: 'cert.key',
 		certPublic: 'cert.pem'
 	},
+	host: '0.0.0.0',
 	port: 443,
-	host: 'localhost',
 	backlog: 511,
 	params: {
 		maxConnections: 100,
