@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": ">=10.5.0"
+    "node": ">=12.22.0"
   },
   "dependencies": {
     "express": "^4.17.1",
@@ -15,7 +15,7 @@
     "log4js": "^6.3.0"
   },
   "devDependencies": {
-    "eslint": "^7.32.0",
+    "eslint": "^8.6.0",
     "eslint-plugin-node": "^11.1.0",
     "nodemon": "^2.0.13"
   },
